@@ -42,7 +42,7 @@ COMMANDS=(
 INSTALLED=0
 for cmd in "${COMMANDS[@]}"; do
     if [ -f "$COMMANDS_DIR/$cmd" ]; then
-        ((INSTALLED++))
+        INSTALLED=$((INSTALLED + 1))
     fi
 done
 
@@ -66,7 +66,7 @@ for cmd in "${COMMANDS[@]}"; do
     if [ -f "$COMMANDS_DIR/$cmd" ]; then
         rm "$COMMANDS_DIR/$cmd"
         echo "  - Removed $cmd"
-        ((REMOVED++))
+        REMOVED=$((REMOVED + 1))
     fi
 done
 
