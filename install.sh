@@ -39,7 +39,7 @@ COMMANDS=(
 EXISTING=0
 for cmd in "${COMMANDS[@]}"; do
     if [ -f "$COMMANDS_DIR/$cmd" ]; then
-        ((EXISTING++))
+        EXISTING=$((EXISTING + 1))
     fi
 done
 
