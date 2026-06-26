@@ -1,8 +1,16 @@
+---
+description: Security scan with tracked, resumable remediation across sessions
+argument-hint: "[path | focus area | resume | status | new]"
+allowed-tools: Read, Grep, Glob, Bash, Edit, Task
+---
+
 # Security Analysis
 
 I'll perform comprehensive security analysis with tracking and remediation continuity across sessions.
 
 Arguments: `$ARGUMENTS` - specific paths or security focus areas
+
+For the detection pass I delegate to the **security-reviewer** sub-agent (Task tool) — it runs in isolated context with read-only tools and returns ranked findings. This command then owns what the agent does not: prioritizing, applying fixes, and tracking remediation progress across sessions.
 
 ## Session Intelligence
 
@@ -184,7 +192,7 @@ Continuing remediation...
 
 When appropriate for critical security fixes:
 - `/test` - Verify functionality after security patches
-- `/commit` - Create security-focused commits with proper messages
+- Commit security fixes with clear, focused messages (native commit)
 
 ## What I'll Actually Do
 

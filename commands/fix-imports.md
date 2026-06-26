@@ -1,3 +1,9 @@
+---
+description: Repair import statements broken by file moves or renames, with resumable sessions
+argument-hint: "[paths/patterns | resume | status | new]"
+allowed-tools: Read, Grep, Glob, Edit, Bash
+---
+
 # Fix Broken Imports
 
 I'll systematically fix import statements broken by file moves or renames, with full continuity across sessions.
@@ -8,24 +14,22 @@ Arguments: `$ARGUMENTS` - specific paths or import patterns to fix
 
 I'll maintain import fixing progress:
 
-**Session Files (in current project directory):**
-- `fix-imports/plan.md` - All broken imports and fixes
-- `fix-imports/state.json` - Resolution progress
-
-**IMPORTANT:** Session files are stored in a `fix-imports` folder in your current project root
+**Session files (gitignored, kept out of your source tree):**
+- `.claude/state/fix-imports/plan.md` - All broken imports and fixes
+- `.claude/state/fix-imports/state.json` - Resolution progress
 
 **Auto-Detection:**
-- If session exists: Resume from last import
-- If no session: Scan for broken imports
+- If a session exists under `.claude/state/fix-imports/`: resume from the last import
+- If no session: scan for broken imports
 - Commands: `resume`, `status`, `new`
 
 ## Phase 1: Import Analysis
 
 **MANDATORY FIRST STEPS:**
-1. Check if `fix-imports` directory exists in current working directory
-2. If directory exists, check for session files:
-   - Look for `fix-imports/state.json`
-   - Look for `fix-imports/plan.md`
+1. Check for an existing session under `.claude/state/fix-imports/`
+2. If it exists, read the session files:
+   - `.claude/state/fix-imports/state.json`
+   - `.claude/state/fix-imports/plan.md`
    - If found, resume from existing session
 3. If no directory or session exists:
    - Scan for all broken imports
@@ -61,7 +65,7 @@ Based on analysis, I'll create resolution plan:
 4. Path recalculation
 5. Import removal if needed
 
-I'll write this plan to `fix-imports/plan.md` with:
+I'll write this plan to `.claude/state/fix-imports/plan.md` with:
 - Each broken import location
 - Possible resolutions
 - Confidence level

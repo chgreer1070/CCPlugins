@@ -1,3 +1,9 @@
+---
+description: Improve code readability and naming without changing behavior
+argument-hint: "[path or scope]"
+allowed-tools: Read, Grep, Glob, Edit, Bash
+---
+
 # Make It Pretty
 
 I'll improve code readability while preserving exact functionality.

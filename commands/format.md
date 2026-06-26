@@ -1,3 +1,9 @@
+---
+description: Auto-detect and run the project's configured code formatter
+argument-hint: "[path to format]"
+allowed-tools: Read, Grep, Glob, Bash
+---
+
 # Auto Format Code
 
 I'll format your code using the project's configured formatter.

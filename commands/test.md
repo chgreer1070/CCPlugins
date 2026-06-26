@@ -1,3 +1,9 @@
+---
+description: Context-aware test runner with intelligent failure analysis and auto-fix
+argument-hint: "[path or test scope]"
+allowed-tools: Read, Grep, Glob, Edit, Bash
+---
+
 # Smart Test Runner - Context Aware
 
 I'll intelligently run tests based on your current context and actively help fix failures.
@@ -18,7 +24,7 @@ Let me understand what context I'm in:
 
 3. **Post-Command Context**:
    - After `/scaffold`: Test the new component
-   - After `/fix-todos`: Test modified files
+   - After `/todos fix`: Test modified files
    - After `/fix-imports`: Re-run previously failed tests
    - After `/security-scan`: Security-focused tests
    - After `/format`: Quick smoke tests only
@@ -56,13 +62,7 @@ I'll run tests with appropriate flags for maximum insight based on your project'
 - Capture and analyze build warnings that might affect tests
 - Check for missing dependencies or version conflicts
 
-**Real-time Monitoring:**
-```bash
-# Monitor test execution with timestamps
-# Capture both stdout and stderr
-# Watch for timeout patterns
-# Track memory usage if tests hang
-```
+**Real-time Monitoring:** I'll capture stdout and stderr, watch for timeout patterns, and track memory usage if tests hang.
 
 **Phase 3: Failure Analysis & Auto-Fix**
 When tests fail, I'll:
@@ -150,19 +150,13 @@ Based on the detected context, I'll choose the optimal approach:
 - Generate session test report at the end
 
 **Integration with other commands:**
-- After `/test` failures → `/create-todos` to track fixes
-- Complex failures → `/explain-like-senior` for deep analysis
+- After `/test` failures → `/todos create` to track fixes
 - Test improvements → `/review` for quality check
-- Session testing → `/session-end` includes test summary
 
 **Important**: I will NEVER:
 - Modify tests to pass incorrectly
 - Remove failing tests without fixing
 - Reduce test coverage
 - Compromise test integrity
-- Add "Co-authored-by" or any Claude signatures
-- Include "Generated with Claude Code" or similar messages
-- Modify git config or user credentials
-- Add any AI/assistant attribution to the commit
 
 This ensures your tests truly validate your code while maximizing development speed.

@@ -10,29 +10,21 @@ mkdir -p "$COMMANDS_DIR"
 REPO_URL="https://raw.githubusercontent.com/brennercruvinel/CCPlugins/main/commands"
 COMMANDS=(
     "cleanproject.md"
-    "commit.md"
     "contributing.md"
-    "create-todos.md"
     "docs.md"
-    "explain-like-senior.md"
-    "find-todos.md"
     "fix-imports.md"
-    "fix-todos.md"
     "format.md"
     "implement.md"
     "make-it-pretty.md"
     "predict-issues.md"
+    "refactor.md"
     "remove-comments.md"
     "review.md"
     "scaffold.md"
     "security-scan.md"
-    "session-end.md"
-    "session-start.md"
     "test.md"
-    "todos-to-issues.md"
+    "todos.md"
     "undo.md"
-    "understand.md"
-    "refactor.md"
 )
 
 # Check for existing commands
@@ -56,7 +48,8 @@ fi
 
 echo "Downloading commands..."
 for cmd in "${COMMANDS[@]}"; do
-    curl -sSL "$REPO_URL/$cmd" -o "$COMMANDS_DIR/$cmd"
+    # --fail so a 404 returns non-zero instead of writing an HTML error page to the command file
+    curl -fsSL "$REPO_URL/$cmd" -o "$COMMANDS_DIR/$cmd"
 done
 echo "CCPlugins installed to $COMMANDS_DIR"
 echo "Type / in Claude Code to see available commands"

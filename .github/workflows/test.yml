@@ -28,4 +28,4 @@ jobs:
         
     - name: Verify commands installed
       run: |
-        python -c "import os; assert os.path.exists(os.path.expanduser('~/.claude/commands/commit.md'))"
+        python -c "import os; assert os.path.exists(os.path.expanduser('~/.claude/commands/refactor.md'))"

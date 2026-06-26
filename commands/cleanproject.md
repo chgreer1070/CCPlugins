@@ -1,3 +1,9 @@
+---
+description: Remove development artifacts and debug files with a non-destructive safety checkpoint
+argument-hint: "[path to clean]"
+allowed-tools: Read, Grep, Glob, Bash, Edit
+---
+
 # Clean Project
 
 I'll help clean up development artifacts while preserving your working code.
