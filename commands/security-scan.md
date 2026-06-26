@@ -8,11 +8,11 @@ Arguments: `$ARGUMENTS` - specific paths or security focus areas
 
 I'll maintain security remediation progress:
 
-**Session Files (in current project directory):**
-- `security-scan/plan.md` - All vulnerabilities and fixes
-- `security-scan/state.json` - Remediation progress
+**Session Files (kept OUT of your project tree):**
+- `.claude/state/security-scan/plan.md` - All vulnerabilities and fixes
+- `.claude/state/security-scan/state.json` - Remediation progress
 
-**IMPORTANT:** Session files are stored in a `security-scan` folder in your current project root
+**IMPORTANT:** Session files are stored under `.claude/state/security-scan/`, never in your project root. This vulnerability list is a sensitive, exploitable inventory — it must not land where `git add` could stage and push it. Ensure `.claude/state/` is gitignored (I'll add it if missing).
 
 **Auto-Detection:**
 - If session exists: Show fixed vs pending vulnerabilities
@@ -43,18 +43,19 @@ When analyzing security:
 - API security boundaries
 
 **MANDATORY FIRST STEPS:**
-1. Check if `security-scan` directory exists in current working directory
+1. Check if `.claude/state/security-scan/` directory exists
 2. If directory exists, check for session files:
-   - Look for `security-scan/state.json`
-   - Look for `security-scan/plan.md`
+   - Look for `.claude/state/security-scan/state.json`
+   - Look for `.claude/state/security-scan/plan.md`
    - If found, resume from existing session
 3. If no directory or session exists:
+   - Ensure `.claude/state/` is gitignored, then create `.claude/state/security-scan/`
    - Perform full security scan
    - Create vulnerability report
    - Initialize tracking
 4. Show risk summary before remediation
 
-**Note:** Always look for session files in the current project's `security-scan/` folder, not `../../../security-scan/` or absolute paths
+**Note:** Always store session files under `.claude/state/security-scan/`, never in the project root or at absolute paths. The plan contains exploitable vulnerability details and must stay out of the committed tree.
 
 I'll analyze security across dimensions:
 
@@ -82,7 +83,7 @@ Based on findings, I'll create remediation plan:
 4. Configuration hardening
 5. Code pattern improvements
 
-I'll write this plan to `security-scan/plan.md` with:
+I'll write this plan to `.claude/state/security-scan/plan.md` with:
 - Each vulnerability details
 - Risk assessment
 - Remediation approach

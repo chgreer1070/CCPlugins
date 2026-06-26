@@ -23,3 +23,15 @@ desktop.ini
 *.log
 *.tmp
 .cache/
+
+# CCPlugins command session state (e.g. security-scan vulnerability plans)
+# Kept out of the tree so sensitive scan output is never committed.
+.claude/state/
+
+# Legacy in-tree state folders written by older command versions
+/security-scan/
+/refactor/
+/implement/
+/scaffold/
+/fix-imports/
+/fix-todos/
