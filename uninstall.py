@@ -35,6 +35,7 @@ def main():
         "session-end.md",
         "session-start.md",
         "test.md",
+        "todos.md",
         "todos-to-issues.md",
         "undo.md",
         "understand.md",

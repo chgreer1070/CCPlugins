@@ -1,3 +1,9 @@
+---
+description: Contribution readiness analysis — issues, branch, PR, comparing local vs remote
+argument-hint: "[issue/PR number or scope]"
+allowed-tools: Read, Grep, Glob, Bash, Task
+---
+
 # Complete Contribution Strategy - Context Aware
 
 I'll analyze everything needed for your successful contribution based on your current context and work.
@@ -89,7 +95,7 @@ I'll understand EVERYTHING about your situation:
 - Understand features implemented
 
 **B. Cold Start Context** (running standalone):
-- Run `/understand` to map entire codebase
+- Map the entire codebase (via the architecture-explorer agent)
 - Analyze all local commits vs remote
 - Detect uncommitted changes
 - Compare fork with upstream (if applicable)

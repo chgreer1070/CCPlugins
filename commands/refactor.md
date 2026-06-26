@@ -1,3 +1,9 @@
+---
+description: Intelligent code restructuring with validation and resumable sessions
+argument-hint: "[files/dirs/scope | resume | status | new]"
+allowed-tools: Read, Grep, Glob, Edit, Bash, Task
+---
+
 # Intelligent Refactoring Engine
 
 I'll help you restructure your code systematically - preserving functionality while improving structure, readability, and maintainability.
@@ -6,33 +12,18 @@ Arguments: `$ARGUMENTS` - files, directories, or refactoring scope
 
 **KEY FEATURE: Built-in validation and refinement after EVERY change ensures nothing breaks and no code is left behind. The AI will automatically fix its own mistakes during the refactoring process.**
 
-**SESSION FILES LOCATION: Always use refactor/ folder in current directory**
-
 ## Session Intelligence
 
-I'll maintain refactoring continuity across sessions:
+I'll maintain refactoring continuity across sessions.
 
-**Session Files (in current project):**
-- `refactor/plan.md` - Refactoring plan with progress tracking  
-- `refactor/state.json` - Current state and completed actions
-
-**IMPORTANT:** The `refactor` folder is created in your CURRENT PROJECT directory. Use `refactor/` to access it.
+**Session files (gitignored, kept out of your source tree):**
+- `.claude/state/refactor/plan.md` - Refactoring plan with progress tracking
+- `.claude/state/refactor/state.json` - Current state and completed actions
 
 **Auto-Detection:**
-- If session exists: Resume from last checkpoint
-- If no session: Create new refactoring plan
+- If a session exists under `.claude/state/refactor/`: resume from the last checkpoint
+- If not: create a new refactoring plan
 - Commands: `resume`, `continue`, `status`, `new`
-
-**EXAMPLE OF CORRECT PATH USAGE:**
-```
-# CORRECT - looks in current project:
-Read refactor/state.json
-LS refactor
-
-# WRONG - these will fail:
-Read ../../../refactor/state.json
-Read $HOME/.claude/refactor/state.json
-```
 
 ## Phase 1: Initial Setup & Analysis
 
@@ -56,24 +47,9 @@ When faced with complex architectural refactoring:
 - Performance-critical refactoring
 - Legacy system modernization
 
-**MANDATORY FIRST STEPS FOR SESSION CHECK:**
-```
-Step 1: Check for refactor directory in CURRENT directory
-Command: LS refactor
+**First, check for an existing session:** look for `.claude/state/refactor/state.json` and `.claude/state/refactor/plan.md`. If present, resume from there; otherwise start a new plan.
 
-Step 2: If refactor exists, read session files:
-Command: Read refactor/state.json
-Command: Read refactor/plan.md
-
-DO NOT USE THESE WRONG PATHS:
-- ../../../refactor/  (WRONG - goes up directories)
-- $HOME/refactor/  (WRONG - home directory)
-- ~/refactor/  (WRONG - home directory)
-
-ONLY USE: refactor/ (current directory)
-```
-
-**CRITICAL:** The refactor folder is created in the CURRENT WORKING DIRECTORY where user is running the command. NOT in home, NOT in parent directories.
+For complex, multi-step refactors I delegate the planning to the **refactor-planner** subagent (Task tool), which inventories every call site and produces a safe, ordered sequence before any code changes.
 
 I'll examine your codebase to identify improvement opportunities:
 
@@ -100,7 +76,7 @@ Based on analysis, I'll create a structured plan:
 - **Performance**: Algorithm optimizations, caching strategies
 
 **Plan Structure:**
-I'll create a detailed plan in `refactor/plan.md`:
+I'll create a detailed plan in `.claude/state/refactor/plan.md`:
 
 ```markdown
 # Refactor Plan - [timestamp]
@@ -356,7 +332,7 @@ When you run ANY of these: `/refactor finish`, `/refactor enhance`, `/refactor v
 
 When appropriate, I may suggest using other commands:
 - `/test` - After major refactoring to verify functionality
-- `/commit` - At logical checkpoints in the refactoring process
+- Committing at logical checkpoints in the refactoring process (native commit)
 
 ## Execution Guarantee
 
@@ -364,7 +340,7 @@ When appropriate, I may suggest using other commands:
 
 1. **Setup session** - Check/create state files FIRST
 2. **Deep analysis** - Use extended thinking for complex scenarios
-3. **Write plan** - Document all changes in `refactor/plan.md`
+3. **Write plan** - Document all changes in `.claude/state/refactor/plan.md`
 4. **Get confirmation** - Show plan summary before starting
 5. **Execute incrementally** - Follow plan with checkpoints
 6. **Validate completeness** - Run validation phase when requested

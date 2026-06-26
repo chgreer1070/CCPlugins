@@ -192,7 +192,7 @@ Continuing remediation...
 
 When appropriate for critical security fixes:
 - `/test` - Verify functionality after security patches
-- `/commit` - Create security-focused commits with proper messages
+- Commit security fixes with clear, focused messages (native commit)
 
 ## What I'll Actually Do
 

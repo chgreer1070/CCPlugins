@@ -1,3 +1,9 @@
+---
+description: Proactively predict likely problems and risk hotspots with timeline estimates
+argument-hint: "[path or focus area]"
+allowed-tools: Read, Grep, Glob, Bash
+---
+
 # Predictive Code Analysis  
 
 I'll analyze your codebase to predict potential problems before they impact your project.

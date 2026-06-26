@@ -52,7 +52,7 @@ Professional commands for Claude Code CLI that save 2-3 hours per week on repeti
 
 **Active Development Notice**: CCPlugins is continuously evolving based on real-world usage. We thoroughly test each command and refine them as we discover gaps and opportunities. This ensures you're always getting battle-tested, production-ready tools that solve actual developer problems.
 
-CCPlugins is a curated set of 24 professional commands that extend Claude Code CLI with enterprise-grade development workflows. These commands leverage Claude's contextual understanding while providing structured, predictable outcomes optimized for Opus 4 and Sonnet 4 models.
+CCPlugins is a curated set of 16 professional commands (plus specialized subagents) that extend Claude Code CLI with enterprise-grade development workflows. These commands leverage Claude's contextual understanding while providing structured, predictable outcomes optimized for Opus 4 and Sonnet 4 models.
 
 ## Quick Links
 
@@ -93,13 +93,12 @@ python uninstall.py
 ```
 
 ## Commands
-24 professional commands optimized for Claude Code CLI's native capabilities with enhanced validation and refinement phases.
+16 professional commands optimized for Claude Code CLI's native capabilities, backed by specialized subagents.
 
 ### Development Workflow
 
 ```bash
 /cleanproject                    # Remove debug artifacts with git safety
-/commit                          # Smart conventional commits with analysis
 /format                          # Auto-detect and apply project formatter
 /scaffold feature-name           # Generate complete features from patterns
 /test                            # Run tests with intelligent failure analysis
@@ -110,34 +109,34 @@ python uninstall.py
 ### Code Quality & Security
 
 ```bash
-/review                # Multi-agent analysis (security, performance, quality, architecture)
-/security-scan         # Vulnerability analysis with extended thinking & remediation tracking
+/review                # Multi-agent analysis (delegates to security/performance/quality/architecture subagents)
+/security-scan         # Vulnerability analysis with tracked, resumable remediation
 /predict-issues        # Proactive problem detection with timeline estimates
 /remove-comments       # Clean obvious comments, preserve valuable docs
 /fix-imports           # Repair broken imports after refactoring
-/find-todos            # Locate and organize development tasks
-/create-todos          # Add contextual TODO comments based on analysis results
-/fix-todos             # Intelligently implement TODO fixes with context
+/todos                 # Find / create / fix / file TODOs (find | create | fix | to-issues)
 ```
 
-### Advanced Analysis
+### Analysis & Docs
 
 ```bash
-/understand            # Analyze entire project architecture and patterns
-/explain-like-senior   # Senior-level code explanations with context
 /contributing          # Complete contribution readiness analysis
 /make-it-pretty        # Improve readability without functional changes
-```
-
-### Session & Project Management
-
-```bash
-/session-start         # Begin documented sessions with CLAUDE.md integration
-/session-end           # Summarize and preserve session context
 /docs                  # Smart documentation management and updates
-/todos-to-issues       # Convert code TODOs to GitHub issues
 /undo                  # Safe rollback with git checkpoint restore
 ```
+
+### Subagents
+
+Shipped under `agents/` and invoked automatically by the commands above (or on demand):
+
+```text
+security-reviewer  performance-reviewer  quality-reviewer  architecture-reviewer
+architecture-explorer   # map an unfamiliar codebase (replaces the old /understand)
+refactor-planner        # produce a safe, ordered refactor plan
+```
+
+> **Migrating from v1?** `/commit` → native commit · `/session-start` / `/session-end` → native memory + compaction · `/understand` → `architecture-explorer` agent or `/init` · `/find-todos` / `/create-todos` / `/fix-todos` / `/todos-to-issues` → `/todos <find|create|fix|to-issues>`.
 
 
 ## Enhanced Features
@@ -157,7 +156,7 @@ Advanced analysis for complex scenarios:
 ### Pragmatic Command Integration
 Natural workflow suggestions without over-engineering:
 - Suggests `/test` after major changes
-- Recommends `/commit` at logical checkpoints
+- Recommends a commit at logical checkpoints (via native commit)
 - Maintains user control, no automatic execution
 
 ## Real World Example
@@ -232,32 +231,19 @@ When you type a command:
 ### Advanced Features
 
 **Session Continuity**
-Commands like `/implement` and `/refactor` maintain state across Claude sessions:
+Commands like `/implement` and `/refactor` maintain state across Claude sessions. State lives under `.claude/state/` (gitignored), **never** in your source tree — so plans and progress are never accidentally committed:
 ```
-# Each command creates its own folder in project root:
-refactor/                  # Created by /refactor command
-├── plan.md               # Refactoring roadmap
-└── state.json            # Completed transformations
-
-implement/                 # Created by /implement command
-├── plan.md               # Implementation progress
-└── state.json            # Session state and decisions
-
-fix-imports/              # Created by /fix-imports command
-├── plan.md               # Import fixes plan
-└── state.json            # Resolution progress
-
-security-scan/            # Created by /security-scan command
-├── plan.md               # Vulnerabilities and fixes
-└── state.json            # Remediation progress
-
-scaffold/                 # Created by /scaffold command
-├── plan.md               # Scaffolding plan
-└── state.json            # Created files tracking
+.claude/state/
+├── refactor/        # plan.md + state.json — refactoring roadmap & completed transformations
+├── implement/       # plan.md + state.json — implementation progress & decisions
+├── fix-imports/     # plan.md + state.json — import fixes & resolution progress
+├── security-scan/   # plan.md + state.json — findings & remediation progress
+├── scaffold/        # plan.md + state.json — scaffolding plan & created files
+└── todos/           # plan.md + state.json — TODO resolution progress
 ```
 
 **Multi-Agent Architecture**
-Complex commands orchestrate specialized sub-agents:
+Complex commands delegate to real subagents (shipped under `agents/`):
 - Security analysis agent for vulnerability detection
 - Performance optimization agent for bottleneck identification
 - Architecture review agent for design pattern analysis
@@ -311,10 +297,10 @@ Intelligent detection without hardcoded assumptions enables universal compatibil
 Custom commands appear with a `(user)` tag in Claude Code CLI to distinguish them from built-in commands. This is normal and indicates your commands are properly installed.
 
 ```
-/commit
-    Smart Git Commit (user)    ← Your custom command
+/refactor
+    Intelligent code restructuring (user)    ← Your custom command
 /help
-    Show help                  ← Built-in command
+    Show help                                ← Built-in command
 ```
 
 ## Performance Metrics
@@ -368,25 +354,24 @@ Use commands in automated workflows:
 # Quality pipeline
 claude "/security-scan" && claude "/review" && claude "/test"
 
-# Pre-commit validation  
-claude "/format" && claude "/commit"
+# Pre-commit validation
+claude "/format" && claude "/test"
 
 # Feature development
 claude "/scaffold api-users" && claude "/test"
 
 # Complete workflow
-claude "/security-scan" && claude "/create-todos" && claude "/todos-to-issues"
+claude "/security-scan" && claude "/todos create" && claude "/todos to-issues"
 
 # TODO resolution workflow
-claude "/find-todos" && claude "/fix-todos" && claude "/test"
+claude "/todos find" && claude "/todos fix" && claude "/test"
 ```
 
 ### Manual Workflow Integration
 Perfect for development routines:
 
 ```bash
-# Morning routine
-claude "/session-start"
+# Start of day
 claude "/security-scan"
 
 # During development
@@ -395,8 +380,7 @@ claude "/review"
 claude "/format"
 
 # End of day
-claude "/commit"
-claude "/session-end"
+claude "/test"
 ```
 
 ## Security & Git Instructions
@@ -404,8 +388,8 @@ claude "/session-end"
 All commands that interact with git include security instructions to prevent AI attribution:
 
 **Commands with git protection:**
-- `/commit`, `/scaffold`, `/make-it-pretty`, `/cleanproject`, `/fix-imports`, `/review`, `/security-scan`
-- `/contributing`, `/todos-to-issues`, `/predict-issues`, `/find-todos`, `/create-todos`, `/fix-todos`
+- `/scaffold`, `/make-it-pretty`, `/cleanproject`, `/fix-imports`, `/review`, `/security-scan`
+- `/contributing`, `/predict-issues`, `/todos`
 
 These commands will NEVER:
 - Add "Co-authored-by" or AI signatures

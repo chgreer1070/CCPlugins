@@ -1,3 +1,9 @@
+---
+description: Remove redundant comments while preserving valuable documentation
+argument-hint: "[path or scope]"
+allowed-tools: Read, Grep, Glob, Edit
+---
+
 # Remove Obvious Comments
 
 I'll clean up redundant comments while preserving valuable documentation.

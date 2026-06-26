@@ -1,3 +1,9 @@
+---
+description: Generate complete feature structures from your project's patterns, with resumable sessions
+argument-hint: "<feature-name | resume | status | new>"
+allowed-tools: Read, Grep, Glob, Edit, Bash
+---
+
 # Intelligent Scaffolding
 
 I'll create complete feature structures based on your project patterns, with full continuity across sessions.
@@ -8,24 +14,22 @@ Arguments: `$ARGUMENTS` - feature name or component to scaffold
 
 I'll maintain scaffolding progress across sessions:
 
-**Session Files (in current project directory):**
-- `scaffold/plan.md` - Scaffolding plan and component list
-- `scaffold/state.json` - Created files and progress
-
-**IMPORTANT:** Session files are stored in a `scaffold` folder in your current project root
+**Session files (gitignored, kept out of your source tree):**
+- `.claude/state/scaffold/plan.md` - Scaffolding plan and component list
+- `.claude/state/scaffold/state.json` - Created files and progress
 
 **Auto-Detection:**
-- If session exists: Resume incomplete scaffolding
-- If no session: Create new scaffolding plan
+- If a session exists under `.claude/state/scaffold/`: resume incomplete scaffolding
+- If no session: create a new scaffolding plan
 - Commands: `resume`, `status`, `new`
 
 ## Phase 1: Pattern Discovery
 
 **MANDATORY FIRST STEPS:**
-1. Check if `scaffold` directory exists in current working directory
-2. If directory exists, check for session files:
-   - Look for `scaffold/state.json`
-   - Look for `scaffold/plan.md`
+1. Check for an existing session under `.claude/state/scaffold/`
+2. If it exists, read the session files:
+   - `.claude/state/scaffold/state.json`
+   - `.claude/state/scaffold/plan.md`
    - If found, resume from existing session
 3. If no directory or session exists:
    - Analyze project patterns
@@ -61,7 +65,7 @@ Based on patterns, I'll create a scaffolding plan:
 - Configuration updates
 - Integration points
 
-I'll write this plan to `scaffold/plan.md` with:
+I'll write this plan to `.claude/state/scaffold/plan.md` with:
 - Each file to create
 - Template patterns to follow
 - Integration requirements

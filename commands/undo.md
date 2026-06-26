@@ -1,3 +1,9 @@
+---
+description: Safely roll back the last destructive CCPlugins operation via git checkpoint
+argument-hint: "[checkpoint or leave blank for last]"
+allowed-tools: Read, Bash
+---
+
 # Undo Last Operation
 
 I'll help you rollback the last destructive operation performed by CCPlugins commands.

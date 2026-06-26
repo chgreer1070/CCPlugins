@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### V2 redesign (in progress)
+
+CCPlugins is being reshaped around native Claude Code capabilities (subagents, skills, hooks, plugin packaging, native memory). The command set is leaner; several commands that native CLI now covers were removed.
+
+#### Added
+- **Plugin packaging:** `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` so CCPlugins installs as a versioned, namespaced Claude Code plugin (`/ccplugins:*`) via `/plugin`.
+- **Real subagents** under `agents/`: `security-reviewer`, `performance-reviewer`, `quality-reviewer`, `architecture-reviewer`, `architecture-explorer`, `refactor-planner`. `/review` and `/security-scan` now delegate to these via the Task tool instead of describing "sub-agents" in prose.
+- **Unified `/todos`** command with four modes: `find`, `create`, `fix`, `to-issues`.
+- YAML frontmatter (`description`, `argument-hint`, `allowed-tools`) on reshaped commands.
+
+#### Changed
+- **Footgun fixes:** `/review` no longer auto-commits the working tree; `/cleanproject` uses a non-destructive stash checkpoint instead of `git add -A && commit`; `/security-scan` writes session state to `.claude/state/security-scan/` (gitignored) instead of the repo root.
+- `/todos to-issues` no longer blocks issue creation on build/test/lint passing, and inspects upstream without mutating local refs.
+
+#### Removed (covered by native Claude Code)
+| Removed command | Use instead |
+|---|---|
+| `/commit` | Native commit (a pre-commit gate returns later as `/validate`) |
+| `/session-start`, `/session-end` | Native memory (`CLAUDE.md`, `#`, `/memory`) + compaction |
+| `/understand` | `/init` or the `architecture-explorer` agent |
+| `/find-todos` | `/todos find` |
+| `/create-todos` | `/todos create` |
+| `/fix-todos` | `/todos fix` |
+| `/todos-to-issues` | `/todos to-issues` |
+
 ### Added
 - **Extended Thinking Mode:**
   - Added to `/refactor` for complex architectural refactoring analysis

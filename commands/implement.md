@@ -1,3 +1,9 @@
+---
+description: Import and adapt code from any source into your project, with resumable sessions
+argument-hint: "<url | path | description | resume | status | new>"
+allowed-tools: Read, Grep, Glob, Edit, Bash, WebFetch, Task
+---
+
 # Smart Implementation Engine
 
 I'll intelligently implement features from any source - adapting them perfectly to your project's architecture while maintaining your code patterns and standards.
@@ -8,26 +14,24 @@ Arguments: `$ARGUMENTS` - URLs, paths, or descriptions of what to implement
 
 I'll check for existing implementation sessions to continue seamlessly:
 
-**Session Files (in current project directory):**
-- `implement/plan.md` - Current implementation plan and progress
-- `implement/state.json` - Session state and checkpoints
+**Session files (gitignored, kept out of your source tree):**
+- `.claude/state/implement/plan.md` - Current implementation plan and progress
+- `.claude/state/implement/state.json` - Session state and checkpoints
 
-**IMPORTANT:** Session files are stored in a `implement` folder in your current project root, NOT in home directory or parent folders. If a session exists, I'll resume from the exact checkpoint. Otherwise, I'll create a new implementation plan and track progress throughout.
+If a session exists under `.claude/state/implement/`, I'll resume from the exact checkpoint. Otherwise I'll create a new implementation plan and track progress throughout.
 
 ## Phase 1: Initial Setup & Analysis
 
 **MANDATORY FIRST STEPS:**
-1. Check if `implement` directory exists in current working directory
-2. If directory exists, check for session files:
-   - Look for `implement/state.json`
-   - Look for `implement/plan.md`
+1. Check for an existing session under `.claude/state/implement/`
+2. If it exists, read the session files:
+   - `.claude/state/implement/state.json`
+   - `.claude/state/implement/plan.md`
    - If found, resume from existing session
-3. If no directory or session exists:
-   - Create `implement/plan.md`
-   - Initialize `implement/state.json`
+3. If no session exists:
+   - Create `.claude/state/implement/plan.md`
+   - Initialize `.claude/state/implement/state.json`
 4. Complete full analysis BEFORE any implementation
-
-**Critical:** Use `implement` folder in current directory. Do NOT use `$HOME/implement` or any parent directory paths
 
 I'll examine what you've provided and your project structure:
 
@@ -53,7 +57,7 @@ Based on my analysis, I'll create an implementation plan:
 - Design integration approach
 - Break work into testable chunks
 
-I'll write this plan to `implement/plan.md`:
+I'll write this plan to `.claude/state/implement/plan.md`:
 
 ```markdown
 # Implementation Plan - [timestamp]
@@ -120,8 +124,8 @@ I'll implement features incrementally:
 5. Validate everything works correctly
 
 **Progress Tracking:**
-- Update `implement/plan.md` as I complete each item
-- Mark checkpoints in `implement/state.json`
+- Update `.claude/state/implement/plan.md` as I complete each item
+- Mark checkpoints in `.claude/state/implement/state.json`
 - Create meaningful git commits at logical points
 
 ## Phase 5: Quality Assurance
@@ -243,7 +247,7 @@ When you return and run `/implement` or `/implement resume`:
 
 1. **Setup session** - Create/load state files FIRST
 2. **Analyze source & target** - Complete understanding
-3. **Write plan** - Full implementation plan in `implement/plan.md`
+3. **Write plan** - Full implementation plan in `.claude/state/implement/plan.md`
 4. **Show plan** - Present summary before implementing
 5. **Execute systematically** - Follow plan with updates
 6. **Validate integration** - Run validation when requested
@@ -298,6 +302,6 @@ ENHANCEMENT OPPORTUNITIES:
 
 After implementation milestones, I may suggest:
 - `/test` - To verify the implementation works correctly
-- `/commit` - To save progress at logical checkpoints
+- Committing your progress at logical checkpoints (native commit)
 
 I'll maintain perfect continuity across sessions, always picking up exactly where we left off with full context preservation.

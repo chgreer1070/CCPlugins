@@ -1,3 +1,9 @@
+---
+description: Smart documentation management — analyze changes and update all affected docs
+argument-hint: "[update | overview | files]"
+allowed-tools: Read, Grep, Glob, Edit, Task
+---
+
 # Documentation Manager
 
 I'll intelligently manage your project documentation by analyzing what actually happened and updating ALL relevant docs accordingly.
@@ -41,7 +47,7 @@ KEY FINDINGS
 
 When you run `/docs update` or after implementations, I'll:
 
-1. **Run `/understand`** to analyze current codebase
+1. **Map the codebase** (via the architecture-explorer agent) to analyze current structure
 2. **Compare** code reality vs documentation
 3. **Identify** what needs updating:
    - New features not documented
@@ -87,7 +93,7 @@ Based on what happened in session:
 ## Integration with Commands
 
 Works seamlessly with:
-- `/understand` - Get current architecture first
+- architecture-explorer agent - Get current architecture first
 - `/contributing` - Update contribution guidelines
 - `/test` - Document test coverage changes
 - `/scaffold` - Add new component docs
@@ -134,8 +140,8 @@ After analysis, I'll ask: "How should I proceed?"
 ### When to Use /docs
 
 Simply run `/docs` after any significant work:
-- After `/understand` - Ensure docs match code reality
-- After `/fix-todos` or bug fixes - Update all affected documentation
+- After mapping the codebase - Ensure docs match code reality
+- After `/todos fix` or bug fixes - Update all affected documentation
 - After `/scaffold` or new features - Document what was added
 - After `/security-scan` or `/review` - Document findings and decisions
 - After major refactoring - Update architecture, migration guides, everything
@@ -176,15 +182,9 @@ I can manage:
 
 ### Smart Command Combinations
 
-**After analyzing code:**
-```bash
-/understand && /docs
-# Analyzes entire codebase, then updates docs to match reality
-```
-
 **After fixing technical debt:**
 ```bash
-/fix-todos && /test && /docs
+/todos fix && /test && /docs
 # Fixes TODOs, verifies everything works, documents changes
 ```
 
