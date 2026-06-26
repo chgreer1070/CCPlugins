@@ -2,11 +2,7 @@
 
 I'll review your code for potential issues.
 
-Let me create a checkpoint before detailed analysis:
-```bash
-git add -A  
-git commit -m "Pre-review checkpoint" || echo "No changes to commit"
-```
+This is a read-only analysis: I will not modify, stage, or commit any files. Your working tree is left exactly as it is, so no safety checkpoint is needed.
 
 I'll use specialized sub-agents for comprehensive analysis:
 - **Security sub-agent**: Credential exposure, input validation, vulnerabilities

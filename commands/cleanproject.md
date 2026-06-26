@@ -32,10 +32,16 @@ Before cleaning, I need to carefully consider:
    - Group similar files for batch decision making
 </think>
 
-Based on this analysis, I'll create a git checkpoint for safety:
+Based on this analysis, I'll create a non-destructive safety checkpoint. This snapshots your current state (tracked **and** untracked files) into a git stash and immediately restores it, so you get a restore point **without** committing anything to your branch history or bundling unrelated/secret files into a commit:
 ```bash
-git add -A
-git commit -m "Pre-cleanup checkpoint" || echo "No changes to commit"
+# Snapshot working tree into a stash, then restore it so cleanup can proceed.
+# Does NOT alter your commit history or current branch.
+if git stash push --include-untracked --message "cleanproject checkpoint" >/dev/null 2>&1; then
+    git stash apply --index >/dev/null 2>&1 || git stash apply >/dev/null 2>&1
+    echo "Checkpoint saved. Restore anytime with: git stash list / git stash apply"
+else
+    echo "Nothing to checkpoint (clean working tree)"
+fi
 ```
 
 **Important**: I will NEVER:
@@ -66,6 +72,6 @@ I'll show you what will be removed and why before taking action:
 
 After cleanup, I'll verify project integrity and report what was cleaned.
 
-If any issues occur, I can restore from the git checkpoint created at the start.
+If any issues occur, I can restore from the stash checkpoint created at the start (`git stash list`, then `git stash apply`).
 
 This keeps only clean, working code while maintaining complete safety.

@@ -1,0 +1,21 @@
+{
+  "name": "ccplugins",
+  "version": "2.6.0",
+  "description": "Professional commands for Claude Code CLI that automate repetitive development workflows — refactoring, scaffolding, security scanning, code review, and more.",
+  "author": {
+    "name": "Brenner Cruvinel",
+    "url": "https://github.com/brennercruvinel"
+  },
+  "homepage": "https://github.com/brennercruvinel/CCPlugins",
+  "repository": "https://github.com/brennercruvinel/CCPlugins",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "slash-commands",
+    "developer-tools",
+    "automation",
+    "refactoring",
+    "code-review",
+    "security"
+  ]
+}

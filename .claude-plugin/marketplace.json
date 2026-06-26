@@ -1,0 +1,20 @@
+{
+  "name": "ccplugins",
+  "owner": {
+    "name": "Brenner Cruvinel",
+    "url": "https://github.com/brennercruvinel"
+  },
+  "metadata": {
+    "description": "CCPlugins marketplace — install the CCPlugins command pack as a versioned Claude Code plugin.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "ccplugins",
+      "source": "./",
+      "description": "Professional command pack for Claude Code CLI. Namespaced as /ccplugins:* once installed.",
+      "category": "developer-tools",
+      "license": "MIT"
+    }
+  ]
+}
