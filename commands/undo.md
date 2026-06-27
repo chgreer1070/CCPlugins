@@ -42,10 +42,4 @@ If multiple restore options exist, I'll:
 - Explain the implications
 - Let you choose the best approach
 
-**Important**: I will NEVER:
-- Add "Co-authored-by" or any Claude signatures
-- Include "Generated with Claude Code" or similar messages
-- Modify git config or user credentials
-- Add any AI/assistant attribution to the commit
-
 This ensures you can confidently undo operations without losing important work.

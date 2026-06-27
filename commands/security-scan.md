@@ -29,19 +29,7 @@ I'll maintain security remediation progress:
 
 ## Phase 1: Security Assessment
 
-### Extended Thinking for Security Analysis
-
-For complex security scenarios, I'll use extended thinking to identify sophisticated vulnerabilities:
-
-<think>
-When analyzing security:
-- Attack vectors that aren't immediately obvious
-- Chain vulnerabilities that individually seem harmless
-- Business logic flaws that enable exploitation
-- Timing attacks and race conditions
-- Supply chain vulnerabilities in dependencies
-- Architectural weaknesses that enable lateral movement
-</think>
+For complex security scenarios, I'll reason carefully about non-obvious attack vectors, chained vulnerabilities that individually seem harmless, business-logic flaws, timing/race conditions, supply-chain risk in dependencies, and architectural weaknesses that enable lateral movement.
 
 **Triggers for Extended Analysis:**
 - Authentication and authorization systems
