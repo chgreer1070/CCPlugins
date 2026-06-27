@@ -8,37 +8,7 @@ allowed-tools: Read, Grep, Glob, Bash, Edit
 
 I'll help clean up development artifacts while preserving your working code.
 
-## Strategic Thinking Process
-
-<think>
-Before cleaning, I need to carefully consider:
-
-1. **Artifact Identification**
-   - What patterns indicate temporary/debug files?
-   - Which files might look temporary but are actually important?
-   - Are there project-specific conventions for temp files?
-   - What about generated files that should be kept?
-
-2. **Safety Analysis**
-   - Which deletions are definitely safe?
-   - Which require more careful inspection?
-   - Are there active processes using these files?
-   - Could removing these break the development environment?
-
-3. **Common Pitfalls**
-   - .env files might look like artifacts but contain config
-   - .cache directories might be needed for performance
-   - Some .tmp files might be active session data
-   - Debug logs might contain important error information
-
-4. **Cleanup Strategy**
-   - Start with obvious artifacts (*.log, *.tmp, *~)
-   - Check file age - older files are usually safer to remove
-   - Verify with git status what's tracked vs untracked
-   - Group similar files for batch decision making
-</think>
-
-Based on this analysis, I'll create a non-destructive safety checkpoint. This snapshots your current state (tracked **and** untracked files) into a git stash and immediately restores it, so you get a restore point **without** committing anything to your branch history or bundling unrelated/secret files into a commit:
+I'll start with a non-destructive safety checkpoint. This snapshots your current state (tracked **and** untracked files) into a git stash and immediately restores it, so you get a restore point **without** committing anything to your branch history or bundling unrelated/secret files into a commit:
 ```bash
 # Snapshot working tree into a stash, then restore it so cleanup can proceed.
 # Does NOT alter your commit history or current branch.
@@ -49,13 +19,6 @@ else
     echo "Nothing to checkpoint (clean working tree)"
 fi
 ```
-
-**Important**: I will NEVER:
-- Add "Co-authored-by" or any Claude signatures
-- Include "Generated with Claude Code" or similar messages
-- Modify git config or user credentials
-- Add any AI/assistant attribution to the commit
-- Use emojis in commits, PRs, or git-related content
 
 I'll identify cleanup targets using native tools:
 - **Glob tool** to find temporary and debug files

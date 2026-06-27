@@ -52,7 +52,7 @@ Professional commands for Claude Code CLI that save 2-3 hours per week on repeti
 
 **Active Development Notice**: CCPlugins is continuously evolving based on real-world usage. We thoroughly test each command and refine them as we discover gaps and opportunities. This ensures you're always getting battle-tested, production-ready tools that solve actual developer problems.
 
-CCPlugins is a curated set of 16 professional commands (plus specialized subagents) that extend Claude Code CLI with enterprise-grade development workflows. These commands leverage Claude's contextual understanding while providing structured, predictable outcomes optimized for Opus 4 and Sonnet 4 models.
+CCPlugins is a curated set of 17 professional commands (plus specialized subagents and hooks) that extend Claude Code CLI with enterprise-grade development workflows. These commands leverage Claude's contextual understanding while providing structured, predictable outcomes optimized for Opus 4 and Sonnet 4 models.
 
 ## Quick Links
 
@@ -93,17 +93,18 @@ python uninstall.py
 ```
 
 ## Commands
-16 professional commands optimized for Claude Code CLI's native capabilities, backed by specialized subagents.
+17 professional commands optimized for Claude Code CLI's native capabilities, backed by specialized subagents and hooks.
 
 ### Development Workflow
 
 ```bash
-/cleanproject                    # Remove debug artifacts with git safety
+/cleanproject                    # Remove debug artifacts with a non-destructive checkpoint
 /format                          # Auto-detect and apply project formatter
 /scaffold feature-name           # Generate complete features from patterns
 /test                            # Run tests with intelligent failure analysis
 /implement url/path/feature      # Import and adapt code from any source with validation phase
-/refactor                        # Intelligent code restructuring with validation & de-para mapping
+/refactor                        # Restructure code (also: refactor pretty | comments for cosmetic cleanups)
+/validate                        # Pre-commit gate: build + tests + lint + types in one pass
 ```
 
 ### Code Quality & Security
@@ -112,8 +113,8 @@ python uninstall.py
 /review                # Multi-agent analysis (delegates to security/performance/quality/architecture subagents)
 /security-scan         # Vulnerability analysis with tracked, resumable remediation
 /predict-issues        # Proactive problem detection with timeline estimates
-/remove-comments       # Clean obvious comments, preserve valuable docs
 /fix-imports           # Repair broken imports after refactoring
+/batch-fix             # Apply one fix consistently across many files, with preview
 /todos                 # Find / create / fix / file TODOs (find | create | fix | to-issues)
 ```
 
@@ -121,8 +122,8 @@ python uninstall.py
 
 ```bash
 /contributing          # Complete contribution readiness analysis
-/make-it-pretty        # Improve readability without functional changes
 /docs                  # Smart documentation management and updates
+/resume                # Find and continue an in-flight CCPlugins session
 /undo                  # Safe rollback with git checkpoint restore
 ```
 
@@ -136,7 +137,11 @@ architecture-explorer   # map an unfamiliar codebase (replaces the old /understa
 refactor-planner        # produce a safe, ordered refactor plan
 ```
 
-> **Migrating from v1?** `/commit` → native commit · `/session-start` / `/session-end` → native memory + compaction · `/understand` → `architecture-explorer` agent or `/init` · `/find-todos` / `/create-todos` / `/fix-todos` / `/todos-to-issues` → `/todos <find|create|fix|to-issues>`.
+### Hooks
+
+Shipped under `hooks/`: a `PreToolUse` guard blocks any `git commit` that carries AI attribution (Co-Authored-By: Claude, "Generated with Claude Code", claude.ai/code links) — centralizing a rule that used to be copy-pasted into every command body. It only blocks; it never modifies files.
+
+> **Migrating from v1?** `/commit` → native commit · `/session-start` / `/session-end` → native memory + compaction · `/understand` → `architecture-explorer` agent or `/init` · `/find-todos` / `/create-todos` / `/fix-todos` / `/todos-to-issues` → `/todos <find|create|fix|to-issues>` · `/make-it-pretty` → `/refactor pretty` · `/remove-comments` → `/refactor comments`.
 
 
 ## Enhanced Features

@@ -10,6 +10,7 @@ COMMANDS_DIR="$HOME/.claude/commands"
 
 # List of CCPlugins commands (including old ones for compatibility)
 COMMANDS=(
+    "batch-fix.md"
     "cleanproject.md"
     "cleanup-types.md"     # Old command (removed)
     "commit.md"
@@ -31,12 +32,14 @@ COMMANDS=(
     "security-scan.md"
     "session-end.md"
     "session-start.md"
+    "resume.md"
     "test.md"
     "todos.md"
     "todos-to-issues.md"
     "undo.md"
     "understand.md"
     "refactor.md"
+    "validate.md"
 )
 
 # Count installed commands
@@ -70,6 +73,9 @@ for cmd in "${COMMANDS[@]}"; do
         REMOVED=$((REMOVED + 1))
     fi
 done
+
+# Remove the install manifest
+rm -f "$HOME/.claude/.ccplugins_manifest.json"
 
 # Clean up cache and backups
 CACHE_DIR="$HOME/.claude/.ccplugins_cache"

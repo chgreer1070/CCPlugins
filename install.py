@@ -6,11 +6,22 @@ CCPlugins Installer
 Copies command files to ~/.claude/commands/
 """
 
+import json
 import os
 import shutil
 import sys
 from pathlib import Path
 from datetime import datetime
+
+
+def read_version(script_dir):
+    """Read the plugin version from .claude-plugin/plugin.json; fallback constant."""
+    plugin_json = script_dir / ".claude-plugin" / "plugin.json"
+    try:
+        return json.loads(plugin_json.read_text()).get("version", "unknown")
+    except Exception:
+        return "unknown"
+
 
 def main():
     # Determine paths
@@ -56,16 +67,33 @@ def main():
             sys.exit(0)
     
     print(f"\n[INSTALL] Installing {len(command_files)} commands:")
+    installed = []
     for file in command_files:
         dest_file = commands_dest / file.name
         shutil.copy2(file, dest_file)
+        installed.append(file.name)
         print(f"  + {file.name}")
-    
+
+    # Write an install manifest so uninstall removes exactly what we installed,
+    # rather than guessing from a hardcoded list (which can delete a user's own
+    # same-named command or orphan renamed ones).
+    manifest = {
+        "version": read_version(script_dir),
+        "installed_at": datetime.now().isoformat(timespec="seconds"),
+        "commands": sorted(installed),
+    }
+    manifest_path = claude_dir / ".ccplugins_manifest.json"
+    try:
+        manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
+        print(f"\n[OK] Wrote manifest: {manifest_path}")
+    except Exception as e:
+        print(f"\n[WARN] Could not write manifest: {e}")
+
     print("\n[SUCCESS] Installation complete!")
     print("\nUsage:")
     print("  1. Open Claude Code CLI")
     print("  2. Type / to see available commands")
-    print("  3. Use /cleanproject, /commit, /refactor, etc.")
+    print("  3. Use /cleanproject, /refactor, /todos, etc.")
     print("\nTip: These commands will save you 6-8 hours per week!")
 
 if __name__ == "__main__":

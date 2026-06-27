@@ -1,6 +1,6 @@
 ---
 description: Intelligent code restructuring with validation and resumable sessions
-argument-hint: "[files/dirs/scope | resume | status | new]"
+argument-hint: "[scope | pretty | comments | resume | status | new]"
 allowed-tools: Read, Grep, Glob, Edit, Bash, Task
 ---
 
@@ -25,27 +25,27 @@ I'll maintain refactoring continuity across sessions.
 - If not: create a new refactoring plan
 - Commands: `resume`, `continue`, `status`, `new`
 
+## Lightweight Polish Modes
+
+For small, behavior-preserving cleanups you don't need the full plan/session machinery. Two quick modes (folded in from the former `/make-it-pretty` and `/remove-comments`):
+
+**`/refactor pretty [path]`** — improve readability without changing behavior:
+- Clearer variable/function/file names and consistent conventions
+- Simplify complex expressions and deep nesting; group related logic
+- Remove dead code and redundancy (DRY)
+- Tighten loose/generic types and add missing annotations where the language supports it
+- Functionality stays identical; existing tests must still pass
+
+**`/refactor comments [path]`** — strip comments that add no value, keep the ones that do:
+- Remove comments that merely restate the code or state the obvious (e.g. `// constructor` above a constructor)
+- Preserve comments that explain WHY, document non-obvious behavior or business logic, or carry TODO/FIXME/HACK markers
+- I'll show what I plan to remove and apply after you confirm
+
+Both modes snapshot a checkpoint first (a stash, not a commit) and change no behavior. For anything structural, use the full refactor flow below.
+
 ## Phase 1: Initial Setup & Analysis
 
-### Extended Thinking for Complex Refactoring
-
-For complex refactoring scenarios, I'll use extended thinking to develop comprehensive strategies:
-
-<think>
-When faced with complex architectural refactoring:
-- Multi-step transformation paths that preserve functionality
-- Risk mitigation strategies for each transformation
-- Dependency graph analysis and update ordering
-- Performance implications of different approaches
-- Backwards compatibility requirements
-- Testing strategies for validating each step
-</think>
-
-**Triggers for Extended Analysis:**
-- Large-scale architectural changes
-- Complex dependency untangling
-- Performance-critical refactoring
-- Legacy system modernization
+For complex refactors (large-scale architectural changes, dependency untangling, performance-critical paths, legacy modernization), I'll reason carefully about transformation order, risk mitigation, dependency update ordering, and how each step is validated before moving on.
 
 **First, check for an existing session:** look for `.claude/state/refactor/state.json` and `.claude/state/refactor/plan.md`. If present, resume from there; otherwise start a new plan.
 
