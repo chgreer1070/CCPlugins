@@ -6,6 +6,7 @@ CCPlugins Uninstaller
 Removes command files from ~/.claude/commands/
 """
 
+import json
 import os
 import shutil
 from pathlib import Path
@@ -13,6 +14,7 @@ from pathlib import Path
 def main():
     # Command files to remove (including old ones for compatibility)
     commands = [
+        "batch-fix.md",
         "cleanproject.md",
         "cleanup-types.md",  # Old command (removed)
         "commit.md",
@@ -34,15 +36,27 @@ def main():
         "security-scan.md",
         "session-end.md",
         "session-start.md",
+        "resume.md",
         "test.md",
         "todos.md",
         "todos-to-issues.md",
         "undo.md",
         "understand.md",
-        "refactor.md"
+        "refactor.md",
+        "validate.md"
     ]
-    
+
     commands_dir = Path.home() / ".claude" / "commands"
+    manifest_path = Path.home() / ".claude" / ".ccplugins_manifest.json"
+
+    # If a manifest exists, union its recorded commands so we remove exactly
+    # what was installed (covers commands not in this hardcoded fallback list).
+    if manifest_path.exists():
+        try:
+            recorded = json.loads(manifest_path.read_text()).get("commands", [])
+            commands = sorted(set(commands) | set(recorded))
+        except Exception:
+            pass
     
     print("CCPlugins Uninstaller")
     print("=" * 40)
@@ -94,6 +108,13 @@ def main():
                 shutil.rmtree(backup_dir)
                 print("  - Removed backups directory")
     
+    # Remove the install manifest itself
+    if manifest_path.exists():
+        try:
+            os.remove(manifest_path)
+        except Exception:
+            pass
+
     print(f"\n[SUCCESS] Uninstalled {removed} commands")
     print("Thanks for trying CCPlugins!")
 

@@ -12,7 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 CCPlugins is being reshaped around native Claude Code capabilities (subagents, skills, hooks, plugin packaging, native memory). The command set is leaner; several commands that native CLI now covers were removed.
 
 #### Added
+- **New commands:** `/validate` (pre-commit gate — build + tests + lint + types in one pass, the gate the old `/commit` only described), `/resume` (find and continue an in-flight stateful session), `/batch-fix` (apply one fix consistently across many files with a preview).
+- **Hooks:** `hooks/hooks.json` + `hooks/block-ai-attribution.py` — a `PreToolUse` guard that blocks `git commit`s carrying AI attribution, centralizing a rule previously copy-pasted into every command body. Blocks only; never modifies files.
 - **Plugin packaging:** `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` so CCPlugins installs as a versioned, namespaced Claude Code plugin (`/ccplugins:*`) via `/plugin`.
+- **Install manifest:** `install.py`/`install.sh` now write `~/.claude/.ccplugins_manifest.json` so uninstall removes exactly what was installed instead of guessing from a hardcoded list.
 - **Real subagents** under `agents/`: `security-reviewer`, `performance-reviewer`, `quality-reviewer`, `architecture-reviewer`, `architecture-explorer`, `refactor-planner`. `/review` and `/security-scan` now delegate to these via the Task tool instead of describing "sub-agents" in prose.
 - **Unified `/todos`** command with four modes: `find`, `create`, `fix`, `to-issues`.
 - YAML frontmatter (`description`, `argument-hint`, `allowed-tools`) on reshaped commands.
@@ -20,6 +23,9 @@ CCPlugins is being reshaped around native Claude Code capabilities (subagents, s
 #### Changed
 - **Footgun fixes:** `/review` no longer auto-commits the working tree; `/cleanproject` uses a non-destructive stash checkpoint instead of `git add -A && commit`; `/security-scan` writes session state to `.claude/state/security-scan/` (gitignored) instead of the repo root.
 - `/todos to-issues` no longer blocks issue creation on build/test/lint passing, and inspects upstream without mutating local refs.
+- **`/make-it-pretty` and `/remove-comments` folded into `/refactor`** as the lightweight `pretty` and `comments` modes.
+- Removed `<think>` blocks and trimmed verbose anti-attribution boilerplate from command bodies (the hook now enforces it).
+- `install.sh` prefers local clone files when run from a checkout (consistent bytes with `install.py`) instead of always pulling floating `main`.
 
 #### Removed (covered by native Claude Code)
 | Removed command | Use instead |
