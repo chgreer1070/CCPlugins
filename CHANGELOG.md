@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 CCPlugins is being reshaped around native Claude Code capabilities (subagents, skills, hooks, plugin packaging, native memory). The command set is leaner; several commands that native CLI now covers were removed.
 
 #### Added
+- **Skill:** `skills/docs/` — documentation maintenance promoted from the `/docs` command to an auto-invoked skill (progressive disclosure). The `/docs` command is removed.
 - **New commands:** `/validate` (pre-commit gate — build + tests + lint + types in one pass, the gate the old `/commit` only described), `/resume` (find and continue an in-flight stateful session), `/batch-fix` (apply one fix consistently across many files with a preview).
 - **Hooks:** `hooks/hooks.json` + `hooks/block-ai-attribution.py` — a `PreToolUse` guard that blocks `git commit`s carrying AI attribution, centralizing a rule previously copy-pasted into every command body. Blocks only; never modifies files.
 - **Plugin packaging:** `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` so CCPlugins installs as a versioned, namespaced Claude Code plugin (`/ccplugins:*`) via `/plugin`.
@@ -26,6 +27,8 @@ CCPlugins is being reshaped around native Claude Code capabilities (subagents, s
 - **`/make-it-pretty` and `/remove-comments` folded into `/refactor`** as the lightweight `pretty` and `comments` modes.
 - Removed `<think>` blocks and trimmed verbose anti-attribution boilerplate from command bodies (the hook now enforces it).
 - `install.sh` prefers local clone files when run from a checkout (consistent bytes with `install.py`) instead of always pulling floating `main`.
+- Collapsed the redundant `finish`/`enhance`/`verify`/`complete` synonym subcommands in `/refactor` and `/implement` into the single `validate` subcommand (they all ran the same process), and trimmed "100% guarantee" over-promising language.
+- README now leads with the `/plugin` install (the only method that ships subagents/skills/hooks) and documents `/ccplugins:*` namespacing; the legacy install scripts are kept as a commands-only fallback.
 
 #### Removed (covered by native Claude Code)
 | Removed command | Use instead |
