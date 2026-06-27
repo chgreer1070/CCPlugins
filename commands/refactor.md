@@ -209,16 +209,10 @@ Continuing from checkpoint...
 /refactor resume    # Continue existing session
 /refactor status    # Check progress without continuing
 /refactor new       # Start fresh (archives existing)
-/refactor validate  # Validate completeness and find loose ends
+/refactor validate  # Validate completeness, compare behavior, find loose ends
 ```
 
-**Deep Validation & Enhancement Commands:**
-```
-/refactor finish    # Complete with full validation & behavior comparison
-/refactor enhance   # Deep analysis comparing original vs refactored
-/refactor verify    # Run original code, capture behavior, compare with new
-/refactor complete  # Ensure 100% migration with behavior preservation
-```
+(The former `finish` / `enhance` / `verify` / `complete` subcommands all did the same thing — they're now the single `validate`.)
 
 ## Phase 6: Automatic Final Validation & Refinement
 
@@ -259,20 +253,15 @@ SUGGESTED REFINEMENTS:
 - Fix remaining issues automatically
 - Ensure 100% pattern consistency
 
-## Deep Validation Commands (All-in-One Process)
+## Validation Process (`/refactor validate`)
 
-**ALL these commands (`finish`, `enhance`, `verify`, `complete`) execute the SAME comprehensive validation process:**
-
-### Complete Validation & Enhancement Process
-When you run ANY of these: `/refactor finish`, `/refactor enhance`, `/refactor verify`, or `/refactor complete`
-
-**I will AUTOMATICALLY execute ALL these steps:**
+When you run `/refactor validate` (or after the automatic final phase), I execute these steps:
 
 1. **Deep Original Code Analysis**
    - Analyze EVERY function, method and class in detail
    - Document ALL behaviors, patterns and logic flows
    - Map complete code structure and dependencies
-   - Create comprehensive understanding in `refactor/original-analysis.md`
+   - Create comprehensive understanding in `.claude/state/refactor/original-analysis.md`
 
 2. **Complete Migration**
    - Apply ALL remaining refactorings
@@ -311,7 +300,7 @@ When you run ANY of these: `/refactor finish`, `/refactor enhance`, `/refactor v
    - Risk assessment
    - Rollback instructions if needed
 
-**The result:** 100% guarantee that NOTHING was broken, NOTHING was left behind, and the application behaves EXACTLY the same as before refactoring.
+**The result:** a thorough check that nothing was left behind and behavior is preserved, with any remaining discrepancies surfaced and fixed.
 
 ## Safety Guarantees
 

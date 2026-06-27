@@ -18,7 +18,6 @@ COMMANDS=(
     "batch-fix.md"
     "cleanproject.md"
     "contributing.md"
-    "docs.md"
     "fix-imports.md"
     "format.md"
     "implement.md"

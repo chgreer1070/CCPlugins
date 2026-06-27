@@ -37,7 +37,7 @@ I'll maintain import fixing progress:
    - Initialize progress tracking
 4. Show import issues summary
 
-**Note:** Always look for session files in the current project's `fix-imports/` folder, not `../../../fix-imports/`
+**Note:** Session files live under `.claude/state/fix-imports/` (gitignored), never in the project root or at absolute/parent paths.
 
 I'll detect broken imports:
 

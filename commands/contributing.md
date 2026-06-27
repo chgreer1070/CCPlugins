@@ -280,7 +280,7 @@ Options:
 - Create missing issues automatically
 - Run `/format` on all changed files
 - Run `/test` to ensure everything passes
-- Run `/docs` to update documentation
+- Update documentation (the `docs` skill handles this automatically)
 - Create PR with maximum context
 
 **Important**: I will NEVER:

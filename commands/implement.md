@@ -139,20 +139,16 @@ I'll ensure the implementation meets your standards:
 - Verify integration points
 - Confirm no regressions
 
-## Deep Validation Process (All-in-One)
+## Validation Process (`/implement validate`)
 
-**ALL validation commands (`finish`, `verify`, `complete`, `enhance`) execute the SAME comprehensive process:**
-
-When you run ANY of these: `/implement finish`, `/implement verify`, `/implement complete`, or `/implement enhance`
-
-**I will AUTOMATICALLY:**
+When you run `/implement validate`, I will:
 
 1. **Deep Original Source Analysis**
    - Thoroughly analyze EVERY aspect of original code/requirements
    - Study ALL implementation patterns and architectures
    - Document COMPLETE functionality and business logic
    - Map entire code structure and dependencies
-   - Create comprehensive analysis in `implement/source-analysis.md`
+   - Create comprehensive analysis in `.claude/state/implement/source-analysis.md`
 
 2. **Requirements Verification**
    - Compare current implementation with original
@@ -195,7 +191,7 @@ When you run ANY of these: `/implement finish`, `/implement verify`, `/implement
    - Security audit results
    - Remaining work (if any)
 
-**The result:** 100% complete, tested, and production-ready implementation that matches ALL requirements.
+**The result:** a tested implementation checked against the original requirements, with gaps and remaining work surfaced.
 
 ## Context Continuity
 
@@ -230,16 +226,10 @@ When you return and run `/implement` or `/implement resume`:
 /implement              # Auto-detects and resumes
 /implement resume       # Explicit resume
 /implement status       # Check progress
-/implement validate     # Validate integration completeness
+/implement validate     # Validate integration completeness against requirements
 ```
 
-**Deep Validation Commands:**
-```
-/implement finish       # Complete with exhaustive testing & validation
-/implement verify       # Deep verification against requirements
-/implement complete     # Ensure 100% feature completeness
-/implement enhance      # Refine and optimize implementation
-```
+(The former `finish` / `verify` / `complete` / `enhance` subcommands all did the same thing — they're now the single `validate`.)
 
 ## Execution Guarantee
 

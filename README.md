@@ -52,7 +52,7 @@ Professional commands for Claude Code CLI that save 2-3 hours per week on repeti
 
 **Active Development Notice**: CCPlugins is continuously evolving based on real-world usage. We thoroughly test each command and refine them as we discover gaps and opportunities. This ensures you're always getting battle-tested, production-ready tools that solve actual developer problems.
 
-CCPlugins is a curated set of 17 professional commands (plus specialized subagents and hooks) that extend Claude Code CLI with enterprise-grade development workflows. These commands leverage Claude's contextual understanding while providing structured, predictable outcomes optimized for Opus 4 and Sonnet 4 models.
+CCPlugins is a curated set of 16 professional commands (plus specialized subagents, a skill, and a hook) that extend Claude Code CLI with enterprise-grade development workflows. These commands leverage Claude's contextual understanding while providing structured, predictable outcomes optimized for Opus 4 and Sonnet 4 models.
 
 ## Quick Links
 
@@ -64,19 +64,27 @@ CCPlugins is a curated set of 17 professional commands (plus specialized subagen
 
 ## Installation
 
-### Quick Install
+### Recommended: install as a plugin
+
+CCPlugins ships as a Claude Code plugin. This is the only method that installs the **full** package — commands **plus** the subagents, skills, and the commit-guard hook — and gives you versioning, clean updates, and namespaced commands (`/ccplugins:*`):
+
+```
+/plugin marketplace add brennercruvinel/CCPlugins
+/plugin install ccplugins
+```
+
+Commands then appear namespaced, e.g. `/ccplugins:refactor`, `/ccplugins:review`.
+
+### Legacy: install scripts (commands only)
+
+The shell/Python installers copy the slash **commands** into `~/.claude/commands/`. They do **not** install the subagents, skills, or hook — use the plugin method above for those.
 
 **Mac/Linux:**
 ```bash
 curl -sSL https://raw.githubusercontent.com/brennercruvinel/CCPlugins/main/install.sh | bash
 ```
 
-**Windows/Cross-platform:**
-```bash
-python install.py
-```
-
-### Manual Install
+**Windows/Cross-platform (from a clone):**
 ```bash
 git clone https://github.com/brennercruvinel/CCPlugins.git
 cd CCPlugins
@@ -85,15 +93,16 @@ python install.py
 
 ### Uninstall
 ```bash
-# Mac/Linux
-./uninstall.sh
+# Plugin install
+/plugin uninstall ccplugins
 
-# Windows/Cross-platform
-python uninstall.py
+# Legacy script install
+./uninstall.sh        # Mac/Linux
+python uninstall.py    # Windows/Cross-platform
 ```
 
 ## Commands
-17 professional commands optimized for Claude Code CLI's native capabilities, backed by specialized subagents and hooks.
+16 professional commands optimized for Claude Code CLI's native capabilities, backed by specialized subagents, a skill, and a hook.
 
 ### Development Workflow
 
@@ -118,11 +127,10 @@ python uninstall.py
 /todos                 # Find / create / fix / file TODOs (find | create | fix | to-issues)
 ```
 
-### Analysis & Docs
+### Analysis & Workflow
 
 ```bash
 /contributing          # Complete contribution readiness analysis
-/docs                  # Smart documentation management and updates
 /resume                # Find and continue an in-flight CCPlugins session
 /undo                  # Safe rollback with git checkpoint restore
 ```
@@ -137,11 +145,19 @@ architecture-explorer   # map an unfamiliar codebase (replaces the old /understa
 refactor-planner        # produce a safe, ordered refactor plan
 ```
 
+### Skills
+
+Shipped under `skills/` and invoked automatically when relevant (progressive disclosure):
+
+```text
+docs   # keep README/CHANGELOG/API docs in sync with code (replaces the old /docs command)
+```
+
 ### Hooks
 
 Shipped under `hooks/`: a `PreToolUse` guard blocks any `git commit` that carries AI attribution (Co-Authored-By: Claude, "Generated with Claude Code", claude.ai/code links) — centralizing a rule that used to be copy-pasted into every command body. It only blocks; it never modifies files.
 
-> **Migrating from v1?** `/commit` → native commit · `/session-start` / `/session-end` → native memory + compaction · `/understand` → `architecture-explorer` agent or `/init` · `/find-todos` / `/create-todos` / `/fix-todos` / `/todos-to-issues` → `/todos <find|create|fix|to-issues>` · `/make-it-pretty` → `/refactor pretty` · `/remove-comments` → `/refactor comments`.
+> **Migrating from v1?** `/commit` → native commit · `/session-start` / `/session-end` → native memory + compaction · `/understand` → `architecture-explorer` agent or `/init` · `/find-todos` / `/create-todos` / `/fix-todos` / `/todos-to-issues` → `/todos <find|create|fix|to-issues>` · `/make-it-pretty` → `/refactor pretty` · `/remove-comments` → `/refactor comments` · `/docs` → the `docs` skill (auto-invoked).
 
 
 ## Enhanced Features
