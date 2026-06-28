@@ -17,7 +17,7 @@ Keep documentation accurate by looking at what actually changed and updating eve
 ## Modes
 
 - **Overview** — when asked what docs exist or their state: list every markdown doc with a freshness/coverage read and flag gaps.
-- **Update** — the default after code changes: map code reality vs docs and update what drifted. For current architecture, invoke the `architecture-explorer` agent first.
+- **Update** — the default after code changes: map code reality vs docs and update what drifted. For current architecture, invoke the `architecture-explorer` agent first if the Agent tool is available; otherwise map it directly with Read/Grep/Glob.
 - **Session** — after a long working session: summarize all changes, group by feature/fix/enhancement, and update the appropriate docs.
 
 ## Rules

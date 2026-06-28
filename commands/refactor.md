@@ -1,7 +1,7 @@
 ---
 description: Intelligent code restructuring with validation and resumable sessions
 argument-hint: "[scope | pretty | comments | resume | status | new]"
-allowed-tools: Read, Grep, Glob, Edit, Bash, Task
+allowed-tools: Read, Grep, Glob, Edit, Bash, Agent
 ---
 
 # Intelligent Refactoring Engine
@@ -49,7 +49,7 @@ For complex refactors (large-scale architectural changes, dependency untangling,
 
 **First, check for an existing session:** look for `.claude/state/refactor/state.json` and `.claude/state/refactor/plan.md`. If present, resume from there; otherwise start a new plan.
 
-For complex, multi-step refactors I delegate the planning to the **refactor-planner** subagent (Task tool), which inventories every call site and produces a safe, ordered sequence before any code changes.
+For complex, multi-step refactors I delegate the planning to the **refactor-planner** subagent (Agent tool), which inventories every call site and produces a safe, ordered sequence before any code changes.
 
 I'll examine your codebase to identify improvement opportunities:
 

@@ -1,8 +1,7 @@
 {
-  "name": "ccplugins",
+  "name": "ccplugins-marketplace",
   "owner": {
-    "name": "Brenner Cruvinel",
-    "url": "https://github.com/brennercruvinel"
+    "name": "chgreer1070"
   },
   "metadata": {
     "description": "CCPlugins marketplace — install the CCPlugins command pack as a versioned Claude Code plugin.",

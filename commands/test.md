@@ -18,7 +18,7 @@ Let me understand what context I'm in:
 
 2. **Active Session** (you're implementing features):
    - Check git diff for modified files
-   - Read CLAUDE.md for session goals
+   - Check `git diff` for what you're actively working on
    - Test ONLY what you've been working on
    - Incremental testing as you code
 
@@ -144,7 +144,7 @@ Based on the detected context, I'll choose the optimal approach:
 ```
 
 **Session Awareness:**
-- Read session goals from CLAUDE.md
+- Infer focus from `git diff` and recent commits
 - Track all modified files during session
 - Prioritize tests based on session objectives
 - Generate session test report at the end
