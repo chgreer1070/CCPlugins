@@ -1,12 +1,8 @@
 
 
-## 🚨 V2 in Development
+## V2 — now shipped
 
-CCPlugins V2 is currently in active development due to recent Anthropic updates (SDK improvements, native subagents, context memory, and enhanced CLI capabilities). Several slash commands have become redundant as Claude Code CLI now handles them natively.
-
-V2 will be a complete architectural redesign focusing on what Claude Code still can't do efficiently.
-
-**Current version (v1) remains stable and functional.**
+CCPlugins V2 reshaped the pack around native Claude Code capabilities: real subagents, a skill, a commit-guard hook, and proper plugin packaging — while removing the commands that native CLI (subagents, context memory, native commits) now handles. Install it as a plugin (below) for the full experience.
 
 
 [![V2 Teaser](https://raw.githubusercontent.com/brennercruvinel/AutoSauce/99df4833a19bd85aa3058765f2d9a68e89a55685/auto-sauce-brenner-cruvinel-claude-code.png)](https://github.com/brennercruvinel/AutoSauce)
@@ -32,12 +28,12 @@ V2 will be a complete architectural redesign focusing on what Claude Code still 
 ```
 
 # Automate the `Boring Stuff`
-![GitHub Repo stars](https://img.shields.io/github/stars/brennercruvinel/CCPlugins?style=social)
-[![Version](https://img.shields.io/badge/version-2.5.2-blue.svg)](https://github.com/brennercruvinel/CCPlugins)
+![GitHub Repo stars](https://img.shields.io/github/stars/chgreer1070/CCPlugins?style=social)
+[![Version](https://img.shields.io/badge/version-2.6.0-blue.svg)](https://github.com/chgreer1070/CCPlugins)
 [![Claude Code CLI](https://img.shields.io/badge/for-Claude%20Code%20CLI-purple.svg)](https://docs.anthropic.com/en/docs/claude-code)
 [![Tested on](https://img.shields.io/badge/tested%20on-Opus%204%20%26%20Sonnet%204-orange.svg)](https://claude.ai)
 [![Also works with](https://img.shields.io/badge/also%20works%20with-Kimi%20K2-1783ff.svg)](https://github.com/MoonshotAI/Kimi-K2)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/brennercruvinel/CCPlugins/blob/main/CONTRIBUTING.md)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/chgreer1070/CCPlugins/blob/main/CONTRIBUTING.md)
 
 ## What is `CCPlugins`?
 
@@ -69,7 +65,7 @@ CCPlugins is a curated set of 16 professional commands (plus specialized subagen
 CCPlugins ships as a Claude Code plugin. This is the only method that installs the **full** package — commands **plus** the subagents, skills, and the commit-guard hook — and gives you versioning, clean updates, and namespaced commands (`/ccplugins:*`):
 
 ```
-/plugin marketplace add brennercruvinel/CCPlugins
+/plugin marketplace add chgreer1070/CCPlugins
 /plugin install ccplugins
 ```
 
@@ -81,12 +77,12 @@ The shell/Python installers copy the slash **commands** into `~/.claude/commands
 
 **Mac/Linux:**
 ```bash
-curl -sSL https://raw.githubusercontent.com/brennercruvinel/CCPlugins/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/chgreer1070/CCPlugins/main/install.sh | bash
 ```
 
 **Windows/Cross-platform (from a clone):**
 ```bash
-git clone https://github.com/brennercruvinel/CCPlugins.git
+git clone https://github.com/chgreer1070/CCPlugins.git
 cd CCPlugins
 python install.py
 ```
@@ -153,11 +149,13 @@ Shipped under `skills/` and invoked automatically when relevant (progressive dis
 docs   # keep README/CHANGELOG/API docs in sync with code (replaces the old /docs command)
 ```
 
+Auto-loads when documentation drifts; you can also call it explicitly as `/ccplugins:docs`.
+
 ### Hooks
 
 Shipped under `hooks/`: a `PreToolUse` guard blocks any `git commit` that carries AI attribution (Co-Authored-By: Claude, "Generated with Claude Code", claude.ai/code links) — centralizing a rule that used to be copy-pasted into every command body. It only blocks; it never modifies files.
 
-> **Migrating from v1?** `/commit` → native commit · `/session-start` / `/session-end` → native memory + compaction · `/understand` → `architecture-explorer` agent or `/init` · `/find-todos` / `/create-todos` / `/fix-todos` / `/todos-to-issues` → `/todos <find|create|fix|to-issues>` · `/make-it-pretty` → `/refactor pretty` · `/remove-comments` → `/refactor comments` · `/docs` → the `docs` skill (auto-invoked).
+> **Migrating from v1?** `/commit` → native commit · `/session-start` / `/session-end` → native memory + compaction · `/understand` → `architecture-explorer` agent or `/init` · `/find-todos` / `/create-todos` / `/fix-todos` / `/todos-to-issues` → `/todos <find|create|fix|to-issues>` · `/make-it-pretty` → `/refactor pretty` · `/remove-comments` → `/refactor comments` · `/docs` → the `docs` skill (auto-invoked, or call `/ccplugins:docs`).
 
 
 ## Enhanced Features
@@ -216,7 +214,7 @@ Developer → /command → Claude Code CLI → Command Definition → Intelligen
 
 When you type a command:
 
-1. **Command Loading**: Claude reads the markdown definition from `~/.claude/commands/`
+1. **Command Loading**: Claude reads the command definition (from the installed plugin, or `~/.claude/commands/` for a script install)
 2. **Context Analysis**: Analyzes your project structure, technology stack, and current state
 3. **Intelligent Planning**: Creates execution strategy based on your specific situation
 4. **Safe Execution**: Performs actions with automatic checkpoints and validation
@@ -331,7 +329,6 @@ Custom commands appear with a `(user)` tag in Claude Code CLI to distinguish the
 | Security analysis | 45-60 min | 3-5 min | ~50 min |
 | Architecture review | 30-45 min | 5-8 min | ~35 min |
 | Feature scaffolding | 25-40 min | 2-3 min | ~30 min |
-| Git commits | 5-10 min | 30 sec | ~9 min |
 | Code cleanup | 20-30 min | 1 min | ~25 min |
 | Import fixing | 15-25 min | 1-2 min | ~20 min |
 | Code review | 20-30 min | 2-4 min | ~20 min |
@@ -406,19 +403,12 @@ claude "/test"
 
 ## Security & Git Instructions
 
-All commands that interact with git include security instructions to prevent AI attribution:
+CCPlugins keeps your git history free of AI attribution. Commits will NEVER include:
+- "Co-authored-by" or AI signatures
+- "Generated with Claude Code" messages
+- `claude.ai/code` links or other AI watermarks
 
-**Commands with git protection:**
-- `/scaffold`, `/make-it-pretty`, `/cleanproject`, `/fix-imports`, `/review`, `/security-scan`
-- `/contributing`, `/predict-issues`, `/todos`
-
-These commands will NEVER:
-- Add "Co-authored-by" or AI signatures
-- Include "Generated with Claude Code" messages
-- Modify git config or credentials
-- Add AI attribution to commits/issues
-
-You can modify these instructions in individual command files if needed.
+This is enforced two ways: each git-related command (`/cleanproject`, `/fix-imports`, `/review`, `/security-scan`, `/contributing`, `/predict-issues`, `/scaffold`, `/refactor`, `/todos`) avoids adding attribution, and — when installed as a plugin — a `PreToolUse` hook (`hooks/block-ai-attribution.py`) blocks any `git commit` whose message carries attribution. Commands never modify your git config or credentials.
 
 ## Contributing
 
@@ -431,8 +421,8 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## Community
 
-[![Star History Chart](https://api.star-history.com/svg?repos=brennercruvinel/CCPlugins&type=Date)](https://star-history.com/#brennercruvinel/CCPlugins&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=chgreer1070/CCPlugins&type=Date)](https://star-history.com/#chgreer1070/CCPlugins&Date)
 
 ---
 
-**Last Updated:** August 2, 2025 (Based on Anthropic Claude Code CLI documentation v2025.08.01)
+**Last Updated:** June 28, 2026 (V2 release — plugin packaging, subagents, skill, and commit-guard hook)

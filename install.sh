@@ -12,7 +12,7 @@ mkdir -p "$COMMANDS_DIR"
 # pulled floating main while install.py copied the local checkout.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd || echo "")"
 LOCAL_COMMANDS="$SCRIPT_DIR/commands"
-REPO_URL="https://raw.githubusercontent.com/brennercruvinel/CCPlugins/main/commands"
+REPO_URL="https://raw.githubusercontent.com/chgreer1070/CCPlugins/main/commands"
 
 COMMANDS=(
     "batch-fix.md"
@@ -77,5 +77,11 @@ done
     echo "}"
 } > "$MANIFEST"
 
-echo "CCPlugins installed to $COMMANDS_DIR"
+echo "CCPlugins commands installed to $COMMANDS_DIR"
 echo "Type / in Claude Code to see available commands"
+echo
+echo "Note: this script installs COMMANDS only. The subagents (used by /review and"
+echo "      /security-scan), the docs skill, and the commit-guard hook are NOT installed"
+echo "      this way. For the full package, install as a plugin instead:"
+echo "        /plugin marketplace add chgreer1070/CCPlugins"
+echo "        /plugin install ccplugins"

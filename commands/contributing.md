@@ -14,7 +14,7 @@ I'll begin by detecting your context:
 Let me understand what situation you're in:
 
 1. **Active Session Context** (you've been implementing):
-   - Read CLAUDE.md for session goals and work done
+   - Check `git status`/`git diff`, recent commits, and any `.claude/state/` session for work in progress
    - Analyze ALL files modified during session
    - Check if tests were run and passed
    - Review commits made during session
@@ -57,7 +57,7 @@ If ANY check fails → STOP and fix first!
 I'll understand EVERYTHING about your situation:
 
 **A. Session Context** (if you've been working):
-- Read CLAUDE.md for complete session history
+- Review recent commits and `git diff` for the full picture of changes (and CLAUDE.md for any durable project context)
 - Analyze ALL files changed during session
 - Check test results from `/test` runs
 - Review any `/review` or `/security-scan` results

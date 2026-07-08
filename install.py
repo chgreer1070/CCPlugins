@@ -94,7 +94,12 @@ def main():
     print("  1. Open Claude Code CLI")
     print("  2. Type / to see available commands")
     print("  3. Use /cleanproject, /refactor, /todos, etc.")
-    print("\nTip: These commands will save you 6-8 hours per week!")
+    print("\nNote: this installs COMMANDS only. The subagents (used by /review and")
+    print("      /security-scan), the docs skill, and the commit-guard hook are NOT")
+    print("      installed this way. For the full package, install as a plugin:")
+    print("        /plugin marketplace add chgreer1070/CCPlugins")
+    print("        /plugin install ccplugins")
+    print("\nTip: these commands save hours of repetitive work each week.")
 
 if __name__ == "__main__":
     try:

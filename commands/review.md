@@ -1,7 +1,7 @@
 ---
 description: Multi-agent code review (security, performance, quality, architecture) of your changes
 argument-hint: "[path or leave blank for current diff]"
-allowed-tools: Read, Grep, Glob, Bash, Task
+allowed-tools: Read, Grep, Glob, Bash, Agent
 ---
 
 # Code Review
@@ -17,7 +17,7 @@ I'll delegate to four specialized sub-agents in parallel, each with isolated con
 - **quality-reviewer** — complexity, duplication, dead code, error handling, missing test coverage
 - **architecture-reviewer** — layer separation, dependency direction, coupling, fix-at-the-right-depth
 
-I invoke these via the Task tool (the `security-reviewer`, `performance-reviewer`, `quality-reviewer`, and `architecture-reviewer` agents ship with this plugin). For a small diff I may run only the relevant ones.
+I invoke these via the Agent tool (the `security-reviewer`, `performance-reviewer`, `quality-reviewer`, and `architecture-reviewer` agents ship with this plugin). For a small diff I may run only the relevant ones.
 
 Once they report back, I'll:
 1. Merge and de-duplicate findings across the four dimensions.

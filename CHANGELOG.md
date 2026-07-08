@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### V2 redesign (in progress)
+## [2.6.0] - 2026-06-28
 
-CCPlugins is being reshaped around native Claude Code capabilities (subagents, skills, hooks, plugin packaging, native memory). The command set is leaner; several commands that native CLI now covers were removed.
+### V2 redesign
+
+CCPlugins was reshaped around native Claude Code capabilities (subagents, skills, hooks, plugin packaging, native memory). The command set is leaner; several commands that native CLI now covers were removed.
 
 #### Added
 - **Skill:** `skills/docs/` — documentation maintenance promoted from the `/docs` command to an auto-invoked skill (progressive disclosure). The `/docs` command is removed.
@@ -29,6 +31,11 @@ CCPlugins is being reshaped around native Claude Code capabilities (subagents, s
 - `install.sh` prefers local clone files when run from a checkout (consistent bytes with `install.py`) instead of always pulling floating `main`.
 - Collapsed the redundant `finish`/`enhance`/`verify`/`complete` synonym subcommands in `/refactor` and `/implement` into the single `validate` subcommand (they all ran the same process), and trimmed "100% guarantee" over-promising language.
 - README now leads with the `/plugin` install (the only method that ships subagents/skills/hooks) and documents `/ccplugins:*` namespacing; the legacy install scripts are kept as a commands-only fallback.
+
+#### Fixed
+- **Commit-guard hook correctness:** it now scans the commit *message* (handling `-m`, `-F <file>`, and heredoc bodies) instead of the whole command line — fixing false positives (a commit that merely mentioned `claude.ai/code` or "claude" was blocked) and false negatives (`git commit -F file` bypassed it entirely; `git config commit.template` falsely tripped it). Backed by a 20-case unit test (`hooks/test_block_ai_attribution.py`).
+- **CI now validates the package:** `scripts/validate.py` checks all JSON manifests, every command/agent/skill frontmatter, and that `install.sh`'s command list matches `commands/`; the hook test runs in CI. Previously CI only checked that one command file copied.
+- **Version + identity:** cut `2.6.0` (README badge, `plugin.json`, `install.sh`, and this changelog now agree) and pointed all install/marketplace/source URLs at this repo (`chgreer1070/CCPlugins`); renamed the marketplace to `ccplugins-marketplace` to avoid the `ccplugins@ccplugins` collision; dropped the off-schema `owner.url`.
 
 #### Removed (covered by native Claude Code)
 | Removed command | Use instead |
@@ -294,9 +301,10 @@ CCPlugins is being reshaped around native Claude Code capabilities (subagents, s
 - Python-based installer
 - Shell script for Unix-like systems
 
-[Unreleased]: https://github.com/brennercruvinel/CCPlugins/compare/v2.5.2...HEAD
-[2.5.2]: https://github.com/brennercruvinel/CCPlugins/compare/v2.5.1...v2.5.2
-[2.5.1]: https://github.com/brennercruvinel/CCPlugins/compare/v2.0.0...v2.5.1
-[2.0.0]: https://github.com/brennercruvinel/CCPlugins/compare/v1.6.0...v2.0.0
-[1.6.0]: https://github.com/brennercruvinel/CCPlugins/compare/v1.5.0...v1.6.0
-[1.5.0]: https://github.com/brennercruvinel/CCPlugins/releases/tag/v1.5.0
+[Unreleased]: https://github.com/chgreer1070/CCPlugins/compare/v2.6.0...HEAD
+[2.6.0]: https://github.com/chgreer1070/CCPlugins/compare/v2.5.2...v2.6.0
+[2.5.2]: https://github.com/chgreer1070/CCPlugins/compare/v2.5.1...v2.5.2
+[2.5.1]: https://github.com/chgreer1070/CCPlugins/compare/v2.0.0...v2.5.1
+[2.0.0]: https://github.com/chgreer1070/CCPlugins/compare/v1.6.0...v2.0.0
+[1.6.0]: https://github.com/chgreer1070/CCPlugins/compare/v1.5.0...v1.6.0
+[1.5.0]: https://github.com/chgreer1070/CCPlugins/releases/tag/v1.5.0
