@@ -29,3 +29,7 @@ jobs:
     - name: Verify commands installed
       run: |
         python -c "import os; assert os.path.exists(os.path.expanduser('~/.claude/commands/refactor.md'))"
+
+    - name: Test uninstall behavior
+      run: |
+        python -m unittest test_uninstall.py
