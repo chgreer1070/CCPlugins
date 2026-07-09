@@ -11,6 +11,24 @@ import os
 import shutil
 from pathlib import Path
 
+
+def load_commands_from_manifest(manifest_path):
+    if not manifest_path.exists():
+        return None
+
+    try:
+        recorded = json.loads(manifest_path.read_text()).get("commands", [])
+    except Exception as e:
+        print(f"[WARN] Could not read install manifest: {e}")
+        return []
+
+    if not isinstance(recorded, list):
+        print("[WARN] Install manifest has invalid commands list.")
+        return []
+
+    return sorted(cmd for cmd in recorded if isinstance(cmd, str))
+
+
 def main():
     # Command files to remove (including old ones for compatibility)
     commands = [
@@ -49,14 +67,9 @@ def main():
     commands_dir = Path.home() / ".claude" / "commands"
     manifest_path = Path.home() / ".claude" / ".ccplugins_manifest.json"
 
-    # If a manifest exists, union its recorded commands so we remove exactly
-    # what was installed (covers commands not in this hardcoded fallback list).
-    if manifest_path.exists():
-        try:
-            recorded = json.loads(manifest_path.read_text()).get("commands", [])
-            commands = sorted(set(commands) | set(recorded))
-        except Exception:
-            pass
+    recorded_commands = load_commands_from_manifest(manifest_path)
+    if recorded_commands is not None:
+        commands = recorded_commands
     
     print("CCPlugins Uninstaller")
     print("=" * 40)

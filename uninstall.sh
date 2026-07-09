@@ -7,6 +7,7 @@ echo "CCPlugins Uninstaller"
 echo "===================="
 
 COMMANDS_DIR="$HOME/.claude/commands"
+MANIFEST="$HOME/.claude/.ccplugins_manifest.json"
 
 # List of CCPlugins commands (including old ones for compatibility)
 COMMANDS=(
@@ -41,6 +42,40 @@ COMMANDS=(
     "refactor.md"
     "validate.md"
 )
+
+if [ -f "$MANIFEST" ]; then
+    if ! command -v python3 >/dev/null 2>&1; then
+        echo "[ERROR] Install manifest found, but python3 is required to read it safely."
+        echo "        Run python3 uninstall.py or remove commands manually from $COMMANDS_DIR."
+        exit 1
+    fi
+
+    manifest_commands=$(python3 - "$MANIFEST" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+try:
+    commands = json.loads(Path(sys.argv[1]).read_text()).get("commands", [])
+except Exception as exc:
+    print(f"[ERROR] Could not read install manifest: {exc}", file=sys.stderr)
+    sys.exit(2)
+
+if not isinstance(commands, list):
+    print("[ERROR] Install manifest has invalid commands list.", file=sys.stderr)
+    sys.exit(2)
+
+for command in commands:
+    if isinstance(command, str):
+        print(command)
+PY
+)
+
+    COMMANDS=()
+    while IFS= read -r cmd; do
+        [ -n "$cmd" ] && COMMANDS+=("$cmd")
+    done <<< "$manifest_commands"
+fi
 
 # Count installed commands
 INSTALLED=0
