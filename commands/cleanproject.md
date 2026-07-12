@@ -13,8 +13,12 @@ I'll start with a non-destructive safety checkpoint. This snapshots your current
 # Snapshot working tree into a stash, then restore it so cleanup can proceed.
 # Does NOT alter your commit history or current branch.
 if git stash push --include-untracked --message "cleanproject checkpoint" >/dev/null 2>&1; then
-    git stash apply --index >/dev/null 2>&1 || git stash apply >/dev/null 2>&1
-    echo "Checkpoint saved. Restore anytime with: git stash list / git stash apply"
+    if git stash apply --index >/dev/null 2>&1 || git stash apply >/dev/null 2>&1; then
+        echo "Checkpoint saved and working tree restored. Restore anytime with: git stash list / git stash apply"
+    else
+        echo "Checkpoint saved, but automatic restore failed. Stop cleanup and restore manually with: git stash list / git stash apply" >&2
+        exit 1
+    fi
 else
     echo "Nothing to checkpoint (clean working tree)"
 fi
