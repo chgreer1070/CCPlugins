@@ -7,11 +7,13 @@ MANIFEST="$HOME/.claude/.ccplugins_manifest.json"
 VERSION="2.6.0"
 mkdir -p "$COMMANDS_DIR"
 
-# Prefer local files when run from a clone (consistent bytes with install.py);
-# otherwise download from GitHub. This avoids the divergence where install.sh
-# pulled floating main while install.py copied the local checkout.
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd || echo "")"
-LOCAL_COMMANDS="$SCRIPT_DIR/commands"
+# Prefer local files only when run from a real checkout script
+# (consistent bytes with install.py); piped bash must download trusted bytes.
+LOCAL_COMMANDS=""
+if [ -n "${BASH_SOURCE[0]:-}" ] && [ -f "${BASH_SOURCE[0]}" ]; then
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd || echo "")"
+    LOCAL_COMMANDS="$SCRIPT_DIR/commands"
+fi
 REPO_URL="https://raw.githubusercontent.com/brennercruvinel/CCPlugins/main/commands"
 
 COMMANDS=(
@@ -54,7 +56,7 @@ fi
 
 echo "Installing commands..."
 for cmd in "${COMMANDS[@]}"; do
-    if [ -f "$LOCAL_COMMANDS/$cmd" ]; then
+    if [ -n "$LOCAL_COMMANDS" ] && [ -f "$LOCAL_COMMANDS/$cmd" ]; then
         cp "$LOCAL_COMMANDS/$cmd" "$COMMANDS_DIR/$cmd"
     else
         # --fail so a 404 returns non-zero instead of writing an HTML error page
